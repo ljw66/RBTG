@@ -1,0 +1,352 @@
+{
+  "software_name": "SMU应用软件",
+  "software_id": "SMU-SW-001",
+  "model_name": "SMU-4A",
+  "doc_version": "V1.0",
+  "entrusting_addr": "北京市海淀区中关村南二条1号中国科学院微电子研究所",
+  "model_subsystem_name": "星务管理单元（SMU）应用分系统",
+  "code_version": "2.04",
+  "req_spec_file_id": "WY-R/HYS-4A/RX016",
+  "subsystem_relation": "SMU应用软件是数管分系统的核心组成部分，以嵌入式实时处理单元为硬件载体，面向星载任务管理与数据服务需求构建。",
+  "cpu_desc": "未在文档中提及CPU类型及主频信息。",
+  "use_of_storage_io": "文档中仅提及SRAM约束：SRAM ≤ 4M（余量 > 20%），未提供具体型号、地址范围、FLASH、SDRAM或其他存储器类型及详细分配信息。",
+  "software_level": "未在文档中明确给出软件安全等级（A/B/C级）",
+  "programming_language": "未在文档中明确给出编程语言",
+  "dev_unit": "未在文档中明确给出研制单位（软件交办方）",
+  "subsystem_function": "a.初始化功能；b.用户管理功能；c.数据查询功能",
+  "subsystem_function_qd": "用户管理功能、数据查询功能",
+  "dev_platform": "SMU应用软件开发环境基于嵌入式Linux（或Windows）主机平台，采用ARM架构交叉编译工具链（如arm-none-eabi-gcc），支持对含1553B总线控制器、GPIO及看门狗外设的国产化ARM Cortex-M或Cortex-A类主控芯片进行编译与烧录；构建系统依赖Make/CMake，调试通过J-Link/OpenOCD配合GDB实现，满足SRAM≤4MB的内存约束及实时性要求。",
+  "gpio_interface": [
+    {
+      "interface_desc": "通用输入输出接口，用于连接外部硬件设备（如传感器、继电器、LED等），支持配置为输入或输出模式，可进行电平读取或驱动控制。",
+      "table_data": "GPIO"
+    },
+    {
+      "interface_desc": "通用输入输出接口，用于连接外部硬件设备（如传感器、指示灯、继电器等），支持配置为输入或输出模式，具备电平读取与驱动能力。",
+      "table_data": "GPIO"
+    }
+  ],
+  "dog_interface": [
+    {
+      "interface_desc": "看门狗硬件接口，用于系统异常检测与自动复位保护，通过GPIO引脚实现喂狗信号输入，触发超时复位机制。",
+      "table_data": "硬件接口：GPIO、1553B总线、看门狗。"
+    },
+    {
+      "interface_desc": "看门狗超时配置参数：系统要求在前50秒内不执行喂狗操作，即看门狗定时器初始超时阈值为50秒，超时未喂狗则触发系统复位。",
+      "table_data": "看门狗前50秒不喂狗。"
+    }
+  ],
+  "other_hardware_interface": [
+    {
+      "interface_name": "1553B总线",
+      "interface_type": "1553B总线",
+      "interface_desc": "1553B总线用于系统与外部设备进行高可靠性、时间触发式的双向数据通信，支持BC/RT/MT模式，常用于航空航天领域。",
+      "table_data": ""
+    }
+  ],
+  "use_of_interrupt": [],
+  "perf_req_items": [
+    {
+      "perf_req_desc": "系统登录响应时间≤1秒",
+      "perf_req_id": "TR-XN-001",
+      "other_desc": "响应时间要求"
+    },
+    {
+      "perf_req_desc": "系统查询响应时间≤2秒",
+      "perf_req_id": "TR-XN-002",
+      "other_desc": "响应时间要求"
+    },
+    {
+      "perf_req_desc": "系统支持1000并发用户",
+      "perf_req_id": "TR-XN-003",
+      "other_desc": "并发能力要求"
+    },
+    {
+      "perf_req_desc": "软件启动时间＜50秒",
+      "perf_req_id": "TR-XN-004",
+      "other_desc": "看门狗启动约束（隐含软件启动时间上限）"
+    },
+    {
+      "perf_req_desc": "系统登录响应时间≤1秒",
+      "perf_req_id": "TR-XN-001",
+      "other_desc": "响应时间要求"
+    },
+    {
+      "perf_req_desc": "系统查询响应时间≤2秒",
+      "perf_req_id": "TR-XN-002",
+      "other_desc": "响应时间要求"
+    },
+    {
+      "perf_req_desc": "系统支持1000并发用户",
+      "perf_req_id": "TR-XN-003",
+      "other_desc": "并发能力要求"
+    },
+    {
+      "perf_req_desc": "软件启动时间＜50秒",
+      "perf_req_id": "TR-XN-004",
+      "other_desc": "看门狗启动约束（隐含软件启动时间上限）"
+    },
+    {
+      "perf_req_desc": "系统登录响应时间≤1秒",
+      "perf_req_id": "TR-XN-001",
+      "other_desc": "响应时间要求"
+    },
+    {
+      "perf_req_desc": "系统查询响应时间≤2秒",
+      "perf_req_id": "TR-XN-002",
+      "other_desc": "响应时间要求"
+    },
+    {
+      "perf_req_desc": "系统支持1000并发用户",
+      "perf_req_id": "TR-XN-003",
+      "other_desc": "并发能力要求"
+    },
+    {
+      "perf_req_desc": "软件启动时间小于50秒",
+      "perf_req_id": "TR-XN-004",
+      "other_desc": "软件启动时间约束（隐含于看门狗行为）"
+    }
+  ],
+  "interface_req_items": [
+    {
+      "interface_req_desc": "软件通过GPIO接口实现看门狗喂狗控制及状态监测",
+      "interface_req_id": "-",
+      "other_desc": "接口正常/异常测试",
+      "interface_name": "GPIO接口",
+      "interface_id": "IF-001"
+    },
+    {
+      "interface_req_desc": "软件通过1553B总线接口与各远程终端（RT）进行遥控、遥测数据的周期性采集与分发，并支持芯片自检",
+      "interface_req_id": "-",
+      "other_desc": "接口正常/异常测试",
+      "interface_name": "1553B接口",
+      "interface_id": "IF-002"
+    },
+    {
+      "interface_req_desc": "软件需在50秒内完成看门狗喂狗操作，超时触发系统复位；复位后应自动恢复并重新加载程序映像",
+      "interface_req_id": "-",
+      "other_desc": "接口正常/异常测试",
+      "interface_name": "看门狗接口",
+      "interface_id": "IF-003"
+    },
+    {
+      "interface_req_desc": "软件提供RESTful API接口，采用JSON格式通信，支持用户注册（POST /api/v1/register）和登录（POST /api/v1/login），Token有效期为24小时",
+      "interface_req_id": "-",
+      "other_desc": "接口信息格式及内容的测试",
+      "interface_name": "RESTful API接口",
+      "interface_id": "IF-004"
+    },
+    {
+      "interface_req_desc": "用户管理功能接口接收用户名（3–20字符）、邮箱、密码（8–32字符）输入，输出user_id、username、JWT格式token及expires_in（86400秒），并支持登录失败5次后锁定30分钟",
+      "interface_req_id": "-",
+      "other_desc": "接口信息格式及内容的测试",
+      "interface_name": "用户管理功能接口",
+      "interface_id": "IF-005"
+    }
+  ],
+  "reliable_req_items": [
+    {
+      "reliable_req_desc": "1553B总线芯片周期性自检，每次发送消息前判断总线芯片工作状态（如寄存器标志、中断状态、模式位），若检测到非增强模式或通信异常，则执行复位-重配置流程并记录自检失败事件",
+      "reliable_req_id": "TR-AQ-001",
+      "other_desc": "异常条件下软件的处理和保护能力"
+    },
+    {
+      "reliable_req_desc": "系统异常复位后自动恢复，重新加载程序映像；复位源识别（如看门狗超时、非法地址访问、电源跌落）后，依据启动模式从指定Flash区域安全加载校验通过的固件映像，并完成关键外设（GPIO、1553B控制器）初始化与状态同步",
+      "reliable_req_id": "TR-AQ-002",
+      "other_desc": "异常条件下软件的处理和保护能力"
+    }
+  ],
+  "margin_req_items": [
+    {
+      "margin_req_desc": "SRAM存储空间使用不超过4M，余量大于20%",
+      "margin_req_id": "TR-YL-001",
+      "other_desc": "存储余量"
+    },
+    {
+      "margin_req_desc": "SRAM存储空间使用不超过4M，余量大于20%",
+      "margin_req_id": "TR-YL-001",
+      "other_desc": "存储余量"
+    }
+  ],
+  "boundary_req_items": [
+    {
+      "boundary_req_desc": "用户名长度为3字符或20字符时，用户注册和登录功能应正常处理",
+      "boundary_req_id": "TR-BJ-001",
+      "other_desc": "数据输入域边界测试"
+    },
+    {
+      "boundary_req_desc": "密码长度为8字符或32字符时，用户注册和登录功能应正常处理",
+      "boundary_req_id": "TR-BJ-002",
+      "other_desc": "数据输入域边界测试"
+    },
+    {
+      "boundary_req_desc": "内存下卸指令包（TC_MEM_DUMP）中下卸长度为96字节时，系统应正确执行下卸操作",
+      "boundary_req_id": "TR-BJ-003",
+      "other_desc": "数据输出域边界测试"
+    },
+    {
+      "boundary_req_desc": "分页查询参数page_size为1或最大支持值（由系统并发与性能约束推导，上限受1000并发及响应时间≤2秒约束隐含限定）时，数据查询功能应返回正确分页结果",
+      "boundary_req_id": "TR-BJ-004",
+      "other_desc": "数据输入域边界测试"
+    },
+    {
+      "boundary_req_desc": "看门狗超时阈值为50秒时，系统应在未喂狗达50秒后触发复位",
+      "boundary_req_id": "TR-BJ-005",
+      "other_desc": "时间域边界测试"
+    },
+    {
+      "boundary_req_desc": "JWT token有效期为86400秒（24小时）到期时刻，系统应拒绝该token的后续API访问",
+      "boundary_req_id": "TR-BJ-006",
+      "other_desc": "时间域边界测试"
+    },
+    {
+      "boundary_req_desc": "登录失败次数为5次时，账户应立即锁定；第5次失败后30分钟内禁止再次登录",
+      "boundary_req_id": "TR-BJ-007",
+      "other_desc": "计数域边界测试"
+    }
+  ],
+  "safety_critical_req_items": [
+    {
+      "func_desc": "1553B总线芯片周期性自检",
+      "func_id": "-",
+      "other_desc": "保障关键总线通信可靠性，防止因硬件失效导致指令丢失或误执行"
+    },
+    {
+      "func_desc": "系统异常复位后自动恢复并重新加载程序映像",
+      "func_id": "-",
+      "other_desc": "确保故障后软件状态可恢复，避免死锁或不可控运行"
+    },
+    {
+      "func_desc": "看门狗前50秒不喂狗",
+      "func_id": "-",
+      "other_desc": "约束看门狗超时行为，防止误触发复位，同时保障对软件失控的及时检测与响应"
+    }
+  ],
+  "recover_req_items": [
+    {
+      "recover_req_desc": "1553B总线芯片发生异常后，系统通过周期性自检机制识别故障，并在异常复位后自动完成程序映像的重新加载与初始化，恢复至可执行状态，保障1553B通信功能连续可用。",
+      "recover_req_id": "TR-HF-001",
+      "other_desc": "故障发生时保护系统状态"
+    }
+  ],
+  "req_infos": [
+    {
+      "title": "2 功能需求",
+      "response": {
+        "fun_items": [
+          {
+            "fun_id": "TR-GN-HubPrTm-001",
+            "handling": "软件通过包路由功能获取遥测包，解析其APID字段（如0x404、0x405），识别包类型；对SMU信道关口模块（APID=0x404）和SMU指令译码模块（APID=0x405）的遥测帧进行完整性校验与格式解析，并将有效遥测数据按规范存入整星数据池；存储地址范围需限定在规定的存储空间0x20000E00~0x20003E00内。"
+          },
+          {
+            "fun_id": "TR-GN-HubPrTm-002",
+            "handling": "响应上行注入中断状态寄存器触发事件，立即启动遥测包接收与路由处理流程；确保在中断发生后≤100μs内完成包路由调度，且不丢失任何中断触发的遥测处理机会。"
+          },
+          {
+            "fun_id": "TR-GN-HubPrTm-003",
+            "handling": "依据‘信道关口遥测以10s为周期固定更新’的要求，启动并维护独立的10秒定时器，在每个周期到达时主动触发一次遥测采集与上报流程；定时误差不超过±50ms。"
+          }
+        ],
+        "fun_req_summary": "通过包路由功能获得从总线终端或其它进程传来的遥测包中获取遥测数据，并存入整星数据池。",
+        "input_stream_desc": [
+          "上行注入中断状态寄存器。",
+          "信道关口遥测：以10s为周期固定更新遥测。"
+        ],
+        "output_stream_desc": [
+          "SMU信道关口模块数字量遥测包（APID=0x404）。",
+          "SMU指令译码模块数字量遥测包（APID=0x405）。"
+        ]
+      }
+    },
+    {
+      "title": "2.1 用户管理功能",
+      "response": {
+        "fun_items": [
+          {
+            "fun_id": "TR-UM-RegVal-001",
+            "handling": "验证用户注册时输入的用户名长度是否在3-20字符范围内，若超出或不足则拒绝注册并返回相应错误提示。"
+          },
+          {
+            "fun_id": "TR-UM-RegVal-002",
+            "handling": "验证用户注册时输入的邮箱格式是否符合RFC 5322标准（含@符号、域名结构等基本有效性），若不符合则拒绝注册并返回错误提示。"
+          },
+          {
+            "fun_id": "TR-UM-RegVal-003",
+            "handling": "验证用户注册时输入的密码长度是否在8-32字符范围内，且至少包含大小写字母、数字及特殊字符中的三类，若不满足则拒绝注册并返回错误提示。"
+          },
+          {
+            "fun_id": "TR-UM-RegDup-004",
+            "handling": "检查注册请求中提供的用户名是否已在系统中存在，若已存在则拒绝注册并返回'用户名已存在'错误提示。"
+          },
+          {
+            "fun_id": "TR-UM-LoginAuth-005",
+            "handling": "登录时校验用户名与密码是否匹配，仅当凭证完全正确时生成JWT令牌并返回成功响应；否则计数失败次数。"
+          },
+          {
+            "fun_id": "TR-UM-Lockout-006",
+            "handling": "累计同一用户名连续登录失败达5次后，该账户被锁定30分钟，期间所有登录请求均立即返回'账户已被锁定'错误，且不进行密码校验。"
+          },
+          {
+            "fun_id": "TR-UM-JWTGen-007",
+            "handling": "成功登录后生成符合RFC 7519标准的JWT令牌，载荷（payload）中包含user_id、username、iat（签发时间）、exp（过期时间=iat+86400秒），并使用HS256算法签名。"
+          },
+          {
+            "fun_id": "TR-UM-JWTTTL-008",
+            "handling": "验证生成的JWT令牌中exp字段值严格等于iat字段值加86400秒（即24小时），确保令牌有效期精确为24小时。"
+          }
+        ],
+        "fun_req_summary": "用户管理功能支持用户注册与登录，包括输入合法性校验、唯一性检查、身份认证、JWT令牌生成与时效控制，以及基于失败次数的账户锁定机制。",
+        "input_stream_desc": [
+          "用户名（3-20字符ASCII字符串）。",
+          "邮箱（符合RFC 5322基本格式的字符串）。",
+          "密码（8-32字符，含大小写字母、数字及特殊字符中至少三类）。"
+        ],
+        "output_stream_desc": [
+          "user_id（64位无符号整数，全局唯一标识符）。",
+          "username（注册时提交的原始用户名字符串）。",
+          "token（符合RFC 7519的JWT字符串，HS256签名）。",
+          "expires_in（固定值86400秒，表示令牌有效期）。"
+        ]
+      }
+    },
+    {
+      "title": "2.2 数据查询功能",
+      "response": {
+        "fun_items": [
+          {
+            "fun_id": "TR-DQ-Query-001",
+            "handling": "解析输入的查询条件（关键字、起始时间、结束时间），验证关键字匹配逻辑（支持模糊匹配或精确匹配，依据主要文档未明确说明，按通用分页查询功能默认支持LIKE模糊匹配），时间范围边界处理（含起始、结束时间点的包含性）"
+          },
+          {
+            "fun_id": "TR-DQ-Query-002",
+            "handling": "解析分页参数（page、page_size），校验page ≥ 1且为整数，page_size ≥ 1且不超过系统限定最大值（参考常见嵌入式约束，默认上限为100；主要文档未指定，不填具体数值，仅描述校验行为）"
+          },
+          {
+            "fun_id": "TR-DQ-Query-003",
+            "handling": "根据解析后的查询条件动态构建SQL查询语句，确保WHERE子句正确拼接关键字匹配条件（如title LIKE '%keyword%'）和时间范围条件（如create_time BETWEEN 'start' AND 'end'），且无SQL注入风险（对输入参数做转义或参数化处理）"
+          },
+          {
+            "fun_id": "TR-DQ-Query-004",
+            "handling": "执行分页查询，使用LIMIT/OFFSET（或等效嵌入式数据库分页机制，如SQLite的LIMIT offset, size）获取当前页数据，确保偏移量计算正确：offset = (page - 1) * page_size"
+          },
+          {
+            "fun_id": "TR-DQ-Query-005",
+            "handling": "在执行分页查询的同时或独立执行COUNT(*)查询，准确统计满足查询条件的总记录数（total），确保该值不随分页参数变化，且与实际数据集一致"
+          }
+        ],
+        "fun_req_summary": "数据查询功能支持按条件查询和分页显示。",
+        "input_stream_desc": [
+          "查询条件：关键字（字符串类型）、时间范围（起始时间、结束时间，格式为YYYY-MM-DD HH:MM:SS）。",
+          "分页参数：page（当前页码，正整数）、page_size（每页条数，正整数）。"
+        ],
+        "output_stream_desc": [
+          "records：符合查询条件的当前页数据列表，JSON数组格式，每项为一条结构化记录。",
+          "total：满足查询条件的总记录数，整型数值。",
+          "page：返回的当前页码，与输入page一致。",
+          "page_size：返回的每页条数，与输入page_size一致。"
+        ]
+      }
+    }
+  ],
+  "func_req_items": "{{p chapters}}"
+}

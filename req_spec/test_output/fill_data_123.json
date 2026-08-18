@@ -1,0 +1,654 @@
+{
+  "chapterTrList": {
+    "titleNo": "4",
+    "title": "测试类型说明",
+    "level": 1,
+    "funItem": [],
+    "children": [
+      {
+        "titleNo": "4.1",
+        "title": "功能测试",
+        "level": 2,
+        "funItem": [],
+        "children": [
+          {
+            "titleNo": "4.1.1",
+            "title": "2 功能需求",
+            "level": 3,
+            "funItem": [
+              {
+                "funId": "TR-GN-HubPrTm-001",
+                "handling": "软件通过包路由功能获取遥测包，解析其APID字段（如0x404、0x405），识别包类型；对SMU信道关口模块（APID=0x404）和SMU指令译码模块（APID=0x405）的遥测帧进行完整性校验与格式解析，并将有效遥测数据按规范存入整星数据池；存储地址范围需限定在规定的存储空间0x20000E00~0x20003E00内。",
+                "name": "2 功能需求",
+                "priority": null,
+                "sufficiency": null,
+                "testMethod": null,
+                "passCriteria": null
+              },
+              {
+                "funId": "TR-GN-HubPrTm-002",
+                "handling": "响应上行注入中断状态寄存器触发事件，立即启动遥测包接收与路由处理流程；确保在中断发生后≤100μs内完成包路由调度，且不丢失任何中断触发的遥测处理机会。",
+                "name": "2 功能需求",
+                "priority": null,
+                "sufficiency": null,
+                "testMethod": null,
+                "passCriteria": null
+              },
+              {
+                "funId": "TR-GN-HubPrTm-003",
+                "handling": "依据‘信道关口遥测以10s为周期固定更新’的要求，启动并维护独立的10秒定时器，在每个周期到达时主动触发一次遥测采集与上报流程；定时误差不超过±50ms。",
+                "name": "2 功能需求",
+                "priority": null,
+                "sufficiency": null,
+                "testMethod": null,
+                "passCriteria": null
+              }
+            ],
+            "children": null
+          },
+          {
+            "titleNo": "4.1.2",
+            "title": "2.1 用户管理功能",
+            "level": 3,
+            "funItem": [
+              {
+                "funId": "TR-UM-RegVal-001",
+                "handling": "验证用户注册时输入的用户名长度是否在3-20字符范围内，若超出或不足则拒绝注册并返回相应错误提示。",
+                "name": "2.1 用户管理功能",
+                "priority": null,
+                "sufficiency": null,
+                "testMethod": null,
+                "passCriteria": null
+              },
+              {
+                "funId": "TR-UM-RegVal-002",
+                "handling": "验证用户注册时输入的邮箱格式是否符合RFC 5322标准（含@符号、域名结构等基本有效性），若不符合则拒绝注册并返回错误提示。",
+                "name": "2.1 用户管理功能",
+                "priority": null,
+                "sufficiency": null,
+                "testMethod": null,
+                "passCriteria": null
+              },
+              {
+                "funId": "TR-UM-RegVal-003",
+                "handling": "验证用户注册时输入的密码长度是否在8-32字符范围内，且至少包含大小写字母、数字及特殊字符中的三类，若不满足则拒绝注册并返回错误提示。",
+                "name": "2.1 用户管理功能",
+                "priority": null,
+                "sufficiency": null,
+                "testMethod": null,
+                "passCriteria": null
+              },
+              {
+                "funId": "TR-UM-RegDup-004",
+                "handling": "检查注册请求中提供的用户名是否已在系统中存在，若已存在则拒绝注册并返回'用户名已存在'错误提示。",
+                "name": "2.1 用户管理功能",
+                "priority": null,
+                "sufficiency": null,
+                "testMethod": null,
+                "passCriteria": null
+              },
+              {
+                "funId": "TR-UM-LoginAuth-005",
+                "handling": "登录时校验用户名与密码是否匹配，仅当凭证完全正确时生成JWT令牌并返回成功响应；否则计数失败次数。",
+                "name": "2.1 用户管理功能",
+                "priority": null,
+                "sufficiency": null,
+                "testMethod": null,
+                "passCriteria": null
+              },
+              {
+                "funId": "TR-UM-Lockout-006",
+                "handling": "累计同一用户名连续登录失败达5次后，该账户被锁定30分钟，期间所有登录请求均立即返回'账户已被锁定'错误，且不进行密码校验。",
+                "name": "2.1 用户管理功能",
+                "priority": null,
+                "sufficiency": null,
+                "testMethod": null,
+                "passCriteria": null
+              },
+              {
+                "funId": "TR-UM-JWTGen-007",
+                "handling": "成功登录后生成符合RFC 7519标准的JWT令牌，载荷（payload）中包含user_id、username、iat（签发时间）、exp（过期时间=iat+86400秒），并使用HS256算法签名。",
+                "name": "2.1 用户管理功能",
+                "priority": null,
+                "sufficiency": null,
+                "testMethod": null,
+                "passCriteria": null
+              },
+              {
+                "funId": "TR-UM-JWTTTL-008",
+                "handling": "验证生成的JWT令牌中exp字段值严格等于iat字段值加86400秒（即24小时），确保令牌有效期精确为24小时。",
+                "name": "2.1 用户管理功能",
+                "priority": null,
+                "sufficiency": null,
+                "testMethod": null,
+                "passCriteria": null
+              }
+            ],
+            "children": null
+          },
+          {
+            "titleNo": "4.1.3",
+            "title": "2.2 数据查询功能",
+            "level": 3,
+            "funItem": [
+              {
+                "funId": "TR-DQ-Query-001",
+                "handling": "解析输入的查询条件（关键字、起始时间、结束时间），验证关键字匹配逻辑（支持模糊匹配或精确匹配，依据主要文档未明确说明，按通用分页查询功能默认支持LIKE模糊匹配），时间范围边界处理（含起始、结束时间点的包含性）",
+                "name": "2.2 数据查询功能",
+                "priority": null,
+                "sufficiency": null,
+                "testMethod": null,
+                "passCriteria": null
+              },
+              {
+                "funId": "TR-DQ-Query-002",
+                "handling": "解析分页参数（page、page_size），校验page ≥ 1且为整数，page_size ≥ 1且不超过系统限定最大值（参考常见嵌入式约束，默认上限为100；主要文档未指定，不填具体数值，仅描述校验行为）",
+                "name": "2.2 数据查询功能",
+                "priority": null,
+                "sufficiency": null,
+                "testMethod": null,
+                "passCriteria": null
+              },
+              {
+                "funId": "TR-DQ-Query-003",
+                "handling": "根据解析后的查询条件动态构建SQL查询语句，确保WHERE子句正确拼接关键字匹配条件（如title LIKE '%keyword%'）和时间范围条件（如create_time BETWEEN 'start' AND 'end'），且无SQL注入风险（对输入参数做转义或参数化处理）",
+                "name": "2.2 数据查询功能",
+                "priority": null,
+                "sufficiency": null,
+                "testMethod": null,
+                "passCriteria": null
+              },
+              {
+                "funId": "TR-DQ-Query-004",
+                "handling": "执行分页查询，使用LIMIT/OFFSET（或等效嵌入式数据库分页机制，如SQLite的LIMIT offset, size）获取当前页数据，确保偏移量计算正确：offset = (page - 1) * page_size",
+                "name": "2.2 数据查询功能",
+                "priority": null,
+                "sufficiency": null,
+                "testMethod": null,
+                "passCriteria": null
+              },
+              {
+                "funId": "TR-DQ-Query-005",
+                "handling": "在执行分页查询的同时或独立执行COUNT(*)查询，准确统计满足查询条件的总记录数（total），确保该值不随分页参数变化，且与实际数据集一致",
+                "name": "2.2 数据查询功能",
+                "priority": null,
+                "sufficiency": null,
+                "testMethod": null,
+                "passCriteria": null
+              }
+            ],
+            "children": null
+          }
+        ]
+      },
+      {
+        "titleNo": "4.2",
+        "title": "性能测试",
+        "level": 2,
+        "funItem": [],
+        "children": [
+          {
+            "titleNo": "4.2.1",
+            "title": "性能需求项",
+            "level": 3,
+            "children": null,
+            "funItem": [
+              {
+                "funId": "TR-XN-001",
+                "handling": "系统登录响应时间≤1秒",
+                "name": "响应时间要求",
+                "priority": null,
+                "sufficiency": null,
+                "testMethod": null,
+                "passCriteria": null
+              },
+              {
+                "funId": "TR-XN-002",
+                "handling": "系统查询响应时间≤2秒",
+                "name": "响应时间要求",
+                "priority": null,
+                "sufficiency": null,
+                "testMethod": null,
+                "passCriteria": null
+              },
+              {
+                "funId": "TR-XN-003",
+                "handling": "系统支持1000并发用户",
+                "name": "并发能力要求",
+                "priority": null,
+                "sufficiency": null,
+                "testMethod": null,
+                "passCriteria": null
+              },
+              {
+                "funId": "TR-XN-004",
+                "handling": "软件启动时间＜50秒",
+                "name": "看门狗启动约束（隐含软件启动时间上限）",
+                "priority": null,
+                "sufficiency": null,
+                "testMethod": null,
+                "passCriteria": null
+              },
+              {
+                "funId": "TR-XN-001",
+                "handling": "系统登录响应时间≤1秒",
+                "name": "响应时间要求",
+                "priority": null,
+                "sufficiency": null,
+                "testMethod": null,
+                "passCriteria": null
+              },
+              {
+                "funId": "TR-XN-002",
+                "handling": "系统查询响应时间≤2秒",
+                "name": "响应时间要求",
+                "priority": null,
+                "sufficiency": null,
+                "testMethod": null,
+                "passCriteria": null
+              },
+              {
+                "funId": "TR-XN-003",
+                "handling": "系统支持1000并发用户",
+                "name": "并发能力要求",
+                "priority": null,
+                "sufficiency": null,
+                "testMethod": null,
+                "passCriteria": null
+              },
+              {
+                "funId": "TR-XN-004",
+                "handling": "软件启动时间＜50秒",
+                "name": "看门狗启动约束（隐含软件启动时间上限）",
+                "priority": null,
+                "sufficiency": null,
+                "testMethod": null,
+                "passCriteria": null
+              },
+              {
+                "funId": "TR-XN-001",
+                "handling": "系统登录响应时间≤1秒",
+                "name": "响应时间要求",
+                "priority": null,
+                "sufficiency": null,
+                "testMethod": null,
+                "passCriteria": null
+              },
+              {
+                "funId": "TR-XN-002",
+                "handling": "系统查询响应时间≤2秒",
+                "name": "响应时间要求",
+                "priority": null,
+                "sufficiency": null,
+                "testMethod": null,
+                "passCriteria": null
+              },
+              {
+                "funId": "TR-XN-003",
+                "handling": "系统支持1000并发用户",
+                "name": "并发能力要求",
+                "priority": null,
+                "sufficiency": null,
+                "testMethod": null,
+                "passCriteria": null
+              },
+              {
+                "funId": "TR-XN-004",
+                "handling": "软件启动时间小于50秒",
+                "name": "软件启动时间约束（隐含于看门狗行为）",
+                "priority": null,
+                "sufficiency": null,
+                "testMethod": null,
+                "passCriteria": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "titleNo": "4.3",
+        "title": "接口测试",
+        "level": 2,
+        "funItem": [],
+        "children": [
+          {
+            "titleNo": "4.3.1",
+            "title": "接口需求项",
+            "level": 3,
+            "children": null,
+            "funItem": [
+              {
+                "funId": "IF-001",
+                "handling": "软件通过GPIO接口实现看门狗喂狗控制及状态监测",
+                "name": "GPIO接口",
+                "priority": null,
+                "sufficiency": null,
+                "testMethod": null,
+                "passCriteria": null
+              },
+              {
+                "funId": "IF-002",
+                "handling": "软件通过1553B总线接口与各远程终端（RT）进行遥控、遥测数据的周期性采集与分发，并支持芯片自检",
+                "name": "1553B接口",
+                "priority": null,
+                "sufficiency": null,
+                "testMethod": null,
+                "passCriteria": null
+              },
+              {
+                "funId": "IF-003",
+                "handling": "软件需在50秒内完成看门狗喂狗操作，超时触发系统复位；复位后应自动恢复并重新加载程序映像",
+                "name": "看门狗接口",
+                "priority": null,
+                "sufficiency": null,
+                "testMethod": null,
+                "passCriteria": null
+              },
+              {
+                "funId": "IF-004",
+                "handling": "软件提供RESTful API接口，采用JSON格式通信，支持用户注册（POST /api/v1/register）和登录（POST /api/v1/login），Token有效期为24小时",
+                "name": "RESTful API接口",
+                "priority": null,
+                "sufficiency": null,
+                "testMethod": null,
+                "passCriteria": null
+              },
+              {
+                "funId": "IF-005",
+                "handling": "用户管理功能接口接收用户名（3–20字符）、邮箱、密码（8–32字符）输入，输出user_id、username、JWT格式token及expires_in（86400秒），并支持登录失败5次后锁定30分钟",
+                "name": "用户管理功能接口",
+                "priority": null,
+                "sufficiency": null,
+                "testMethod": null,
+                "passCriteria": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "titleNo": "4.4",
+        "title": "可靠性安全测试",
+        "level": 2,
+        "funItem": [],
+        "children": [
+          {
+            "titleNo": "4.4.1",
+            "title": "可靠性安全测试需求项",
+            "level": 3,
+            "children": null,
+            "funItem": [
+              {
+                "funId": "TR-AQ-001",
+                "handling": "1553B总线芯片周期性自检，每次发送消息前判断总线芯片工作状态（如寄存器标志、中断状态、模式位），若检测到非增强模式或通信异常，则执行复位-重配置流程并记录自检失败事件",
+                "name": "异常条件下软件的处理和保护能力",
+                "priority": null,
+                "sufficiency": null,
+                "testMethod": null,
+                "passCriteria": null
+              },
+              {
+                "funId": "TR-AQ-002",
+                "handling": "系统异常复位后自动恢复，重新加载程序映像；复位源识别（如看门狗超时、非法地址访问、电源跌落）后，依据启动模式从指定Flash区域安全加载校验通过的固件映像，并完成关键外设（GPIO、1553B控制器）初始化与状态同步",
+                "name": "异常条件下软件的处理和保护能力",
+                "priority": null,
+                "sufficiency": null,
+                "testMethod": null,
+                "passCriteria": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "titleNo": "4.5",
+        "title": "余量测试",
+        "level": 2,
+        "funItem": [],
+        "children": [
+          {
+            "titleNo": "4.5.1",
+            "title": "余量测试需求项",
+            "level": 3,
+            "children": null,
+            "funItem": [
+              {
+                "funId": "TR-YL-001",
+                "handling": "SRAM存储空间使用不超过4M，余量大于20%",
+                "name": "存储余量",
+                "priority": null,
+                "sufficiency": null,
+                "testMethod": null,
+                "passCriteria": null
+              },
+              {
+                "funId": "TR-YL-001",
+                "handling": "SRAM存储空间使用不超过4M，余量大于20%",
+                "name": "存储余量",
+                "priority": null,
+                "sufficiency": null,
+                "testMethod": null,
+                "passCriteria": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "titleNo": "4.6",
+        "title": "边界测试",
+        "level": 2,
+        "funItem": [],
+        "children": [
+          {
+            "titleNo": "4.6.1",
+            "title": "边界测试需求项",
+            "level": 3,
+            "children": null,
+            "funItem": [
+              {
+                "funId": "TR-BJ-001",
+                "handling": "用户名长度为3字符或20字符时，用户注册和登录功能应正常处理",
+                "name": "数据输入域边界测试",
+                "priority": null,
+                "sufficiency": null,
+                "testMethod": null,
+                "passCriteria": null
+              },
+              {
+                "funId": "TR-BJ-002",
+                "handling": "密码长度为8字符或32字符时，用户注册和登录功能应正常处理",
+                "name": "数据输入域边界测试",
+                "priority": null,
+                "sufficiency": null,
+                "testMethod": null,
+                "passCriteria": null
+              },
+              {
+                "funId": "TR-BJ-003",
+                "handling": "内存下卸指令包（TC_MEM_DUMP）中下卸长度为96字节时，系统应正确执行下卸操作",
+                "name": "数据输出域边界测试",
+                "priority": null,
+                "sufficiency": null,
+                "testMethod": null,
+                "passCriteria": null
+              },
+              {
+                "funId": "TR-BJ-004",
+                "handling": "分页查询参数page_size为1或最大支持值（由系统并发与性能约束推导，上限受1000并发及响应时间≤2秒约束隐含限定）时，数据查询功能应返回正确分页结果",
+                "name": "数据输入域边界测试",
+                "priority": null,
+                "sufficiency": null,
+                "testMethod": null,
+                "passCriteria": null
+              },
+              {
+                "funId": "TR-BJ-005",
+                "handling": "看门狗超时阈值为50秒时，系统应在未喂狗达50秒后触发复位",
+                "name": "时间域边界测试",
+                "priority": null,
+                "sufficiency": null,
+                "testMethod": null,
+                "passCriteria": null
+              },
+              {
+                "funId": "TR-BJ-006",
+                "handling": "JWT token有效期为86400秒（24小时）到期时刻，系统应拒绝该token的后续API访问",
+                "name": "时间域边界测试",
+                "priority": null,
+                "sufficiency": null,
+                "testMethod": null,
+                "passCriteria": null
+              },
+              {
+                "funId": "TR-BJ-007",
+                "handling": "登录失败次数为5次时，账户应立即锁定；第5次失败后30分钟内禁止再次登录",
+                "name": "计数域边界测试",
+                "priority": null,
+                "sufficiency": null,
+                "testMethod": null,
+                "passCriteria": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "titleNo": "4.7",
+        "title": "数据处理测试",
+        "level": 2,
+        "funItem": [],
+        "children": [
+          {
+            "titleNo": "4.7.1",
+            "title": "数据处理测试需求项",
+            "level": 3,
+            "children": null,
+            "funItem": []
+          }
+        ]
+      },
+      {
+        "titleNo": "4.8",
+        "title": "恢复性测试",
+        "level": 2,
+        "funItem": [],
+        "children": [
+          {
+            "titleNo": "4.8.1",
+            "title": "恢复性测试需求项",
+            "level": 3,
+            "children": null,
+            "funItem": [
+              {
+                "funId": "TR-HF-001",
+                "handling": "1553B总线芯片发生异常后，系统通过周期性自检机制识别故障，并在异常复位后自动完成程序映像的重新加载与初始化，恢复至可执行状态，保障1553B通信功能连续可用。",
+                "name": "故障发生时保护系统状态",
+                "priority": null,
+                "sufficiency": null,
+                "testMethod": null,
+                "passCriteria": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "titleNo": "4.9",
+        "title": "强度测试",
+        "level": 2,
+        "funItem": [],
+        "children": [
+          {
+            "titleNo": "4.9.1",
+            "title": "强度测试需求项",
+            "level": 3,
+            "children": null,
+            "funItem": []
+          }
+        ]
+      },
+      {
+        "titleNo": "4.10",
+        "title": "代码审查",
+        "level": 2,
+        "funItem": [],
+        "children": [
+          {
+            "titleNo": "4.10.1",
+            "title": "代码审查需求项",
+            "level": 3,
+            "children": null,
+            "funItem": [
+              {
+                "funId": "TR-DS-ALL",
+                "handling": "本次代码审查范围为被测软件的全部源代码，审查的依据为SMU应用软件需求规格说明书。要求代码审查人员对代码进行阅读、理解和分析，检查代码和设计的一致性、确认代码是否正确实现了需求中的功能。审查过程中还要求参考代码审查检查单的审查项，检查代码执行标准的情况、代码逻辑表达的正确性、代码结构的合理性以及代码的可读性。代码审查检查单内容见附录B，该检查单在代码审查前完成与委托方的确认；此外，代码审查还需要包括针对中断访问冲突、中断保护等进行专项分析。",
+                "name": "代码审查需求项",
+                "priority": null,
+                "sufficiency": null,
+                "testMethod": null,
+                "passCriteria": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "titleNo": "4.11",
+        "title": "静态分析",
+        "level": 2,
+        "funItem": [],
+        "children": [
+          {
+            "titleNo": "4.11.1",
+            "title": "静态分析需求项",
+            "level": 3,
+            "children": null,
+            "funItem": [
+              {
+                "funId": "TR-JF-ALL",
+                "handling": "对全部源代码进行控制流、数据流、接口及表达式分析，确认代码实现是否存在相关问题；",
+                "name": "静态分析需求项",
+                "priority": null,
+                "sufficiency": null,
+                "testMethod": null,
+                "passCriteria": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "titleNo": "4.12",
+        "title": "逻辑测试",
+        "level": 2,
+        "funItem": [],
+        "children": [
+          {
+            "titleNo": "4.12.1",
+            "title": "逻辑测试需求项",
+            "level": 3,
+            "children": null,
+            "funItem": [
+              {
+                "funId": "TR-LJ-ALL",
+                "handling": "测试用例执行过程中使用覆盖率工具统计语句和分支覆盖率；",
+                "name": "逻辑测试需求项",
+                "priority": null,
+                "sufficiency": null,
+                "testMethod": null,
+                "passCriteria": null
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "docType": 1,
+  "projectId": "123",
+  "createBy": "test_user",
+  "userId": "test_user_id",
+  "softwareId": "SMU-SW-001",
+  "codeVersion": "2.04"
+}

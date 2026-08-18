@@ -1,0 +1,245 @@
+{
+    "software_name": {
+        "software_name": "SMU应用软件",
+        "software_id": "SMU-SW-001",
+        "model_name": "SMU-4A",
+        "doc_version": "V1.0",
+        "entrusting_addr": "北京市海淀区中关村南二条1号",
+        "model_subsystem_name": "用户管理分系统",
+        "code_version": "2.04",
+        "req_spec_file_id": "WY-R/HYS-4A/RX016"
+    },
+    "subsystem_relation": {
+        "subsystem_relation": "SMU应用软件作为星载管理单元（SMU）的核心嵌入式应用软件，构成数管分系统的关键配置项，与硬件平台（含1553B总线控制器、GPIO外设、独立看门狗电路）深度耦合，承担用户身份认证与访问控制等关键在轨管理功能。"
+    },
+    "cpu_storage": {
+        "cpu_desc": "未在文档中提及CPU类型及主频信息。",
+        "use_of_storage_io": "未在文档中提及具体存储器类型、容量及地址范围。仅提及SRAM≤4M（余量>20%），但未说明实际配置、起始地址或映射方式。"
+    },
+    "software_level": {
+        "software_level": "未在文档中明确给出软件安全等级（A/B/C级）",
+        "programming_language": "未在文档中明确给出编程语言",
+        "dev_unit": "未在文档中明确给出研制单位（软件交办方）",
+        "subsystem_function": "a.初始化功能；b.用户注册功能；c.用户登录功能；d.用户身份验证与JWT令牌生成功能；e.登录失败锁定与账户保护功能；f.1553B总线芯片周期性自检功能；g.系统异常复位后自动恢复与程序映像重加载功能",
+        "subsystem_function_qd": "用户注册功能、用户登录功能、用户身份验证与JWT令牌生成功能、登录失败锁定与账户保护功能、1553B总线芯片周期性自检功能、系统异常复位后自动恢复与程序映像重加载功能"
+    },
+    "dev_platform": {
+        "dev_platform": "SMU应用软件开发环境基于Linux主机（典型为Ubuntu 18.04/20.04），采用ARM Cortex-M系列交叉编译工具链，构建面向嵌入式实时环境的静态链接可执行映像；编译工具链主要包含：\n\ta.arm-none-eabi-gcc  ARM Cortex-M 交叉编译器（GCC 9.3.1 或以上）；\n\tb.arm-none-eabi-gdb  用于JTAG/SWD在线调试；\n\tc.openocd  支持STM32/HAL等常见MCU的烧录与调试；\n\t编译目标平台具备SRAM ≤4MB约束，需启用严格内存布局控制（ld脚本定制）、无libc依赖（newlib-nano精简C库）、禁用浮点软仿（硬浮点ABI：-mfloat-abi=hard -mfpu=fpv5-d16），并集成CMSIS-RTOS与HAL驱动层。"
+    },
+    "gpio_interface": {
+        "gpio_interfaces": [
+            {
+                "interface_desc": "通用输入输出接口，用于连接外部硬件设备（如传感器、指示灯、继电器等），支持配置为输入或输出模式，具备电平读取与驱动能力。",
+                "table_data": "GPIO"
+            },
+            {
+                "interface_desc": "通用输入输出接口，用于与外部硬件设备进行数字电平信号交互，支持配置为输入、输出、上拉/下拉、中断触发等模式。",
+                "table_data": "GPIO"
+            }
+        ]
+    },
+    "dog_interface": {
+        "dog_interfaces": [
+            {
+                "interface_desc": "看门狗硬件接口，用于系统异常检测与自动复位，通过GPIO引脚实现喂狗操作；系统需在看门狗超时前（≤50秒）完成至少一次喂狗，否则触发硬件复位。",
+                "table_data": "接口类型：硬件接口\n接口名称：看门狗（Watchdog Timer）\n物理连接：GPIO\n超时时间：50秒\n喂狗要求：前50秒内必须执行至少一次喂狗操作\n触发动作：超时未喂狗 → 硬件复位\n复位后行为：自动恢复，重新加载程序映像（见可靠性需求第5节）"
+            }
+        ]
+    },
+    "other_hardware_interface": {
+        "other_hardware_interfaces": [
+            {
+                "interface_name": "1553B总线",
+                "interface_type": "总线接口",
+                "interface_desc": "一种时分多路复用的军用串行数据总线标准，用于在航空电子系统中实现高可靠性、确定性的双向数据通信，支持BC（总线控制器）、RT（远程终端）和BM（总线监视器）三种角色。",
+                "table_data": "无明确表格数据，仅在需求规格说明书第4节及可靠性需求第5节中提及：'硬件接口：GPIO、1553B总线、看门狗'；'1553B总线芯片周期性自检'"
+            }
+        ]
+    },
+    "use_of_interrupt": {
+        "interrupt_list": []
+    },
+    "perf_req_items": {
+        "perf_req_summary": [
+            {
+                "perf_req_desc": "系统登录响应时间≤1秒",
+                "perf_req_id": "TR-XN-001",
+                "other_desc": "响应时间要求"
+            },
+            {
+                "perf_req_desc": "系统查询响应时间≤2秒",
+                "perf_req_id": "TR-XN-002",
+                "other_desc": "响应时间要求"
+            },
+            {
+                "perf_req_desc": "系统支持1000并发用户",
+                "perf_req_id": "TR-XN-003",
+                "other_desc": "并发能力要求"
+            },
+            {
+                "perf_req_desc": "软件启动时间小于50秒",
+                "perf_req_id": "TR-XN-004",
+                "other_desc": "启动时间要求（隐含于看门狗行为）"
+            },
+            {
+                "perf_req_desc": "系统登录响应时间≤1秒",
+                "perf_req_id": "TR-XN-001",
+                "other_desc": "响应时间要求"
+            },
+            {
+                "perf_req_desc": "系统查询响应时间≤2秒",
+                "perf_req_id": "TR-XN-002",
+                "other_desc": "响应时间要求"
+            },
+            {
+                "perf_req_desc": "系统支持1000并发用户",
+                "perf_req_id": "TR-XN-003",
+                "other_desc": "并发能力要求"
+            },
+            {
+                "perf_req_desc": "CPU软件启动时间＜50秒",
+                "perf_req_id": "TR-XN-004",
+                "other_desc": "看门狗启动约束（隐含软件启动时间上限）"
+            },
+            {
+                "perf_req_desc": "系统登录响应时间≤1秒",
+                "perf_req_id": "TR-XN-001",
+                "other_desc": "响应时间要求"
+            },
+            {
+                "perf_req_desc": "系统查询响应时间≤2秒",
+                "perf_req_id": "TR-XN-002",
+                "other_desc": "响应时间要求"
+            },
+            {
+                "perf_req_desc": "系统支持1000并发用户",
+                "perf_req_id": "TR-XN-003",
+                "other_desc": "并发能力要求"
+            },
+            {
+                "perf_req_desc": "软件启动时间小于50秒",
+                "perf_req_id": "TR-XN-004",
+                "other_desc": "软件启动时间要求（隐含于看门狗不喂狗时段）"
+            }
+        ]
+    },
+    "interface_req_items": {
+        "interface_req_summary": [
+            {
+                "interface_req_desc": "软件通过GPIO接口实现看门狗喂狗控制及系统复位信号输出",
+                "interface_req_id": "-",
+                "other_desc": "接口正常/异常测试",
+                "interface_name": "GPIO接口",
+                "interface_id": "IF-001"
+            },
+            {
+                "interface_req_desc": "软件通过1553B总线接口与各远程终端（RT）进行遥控、遥测及状态数据的周期性收发，并支持芯片级自检",
+                "interface_req_id": "-",
+                "other_desc": "接口正常/异常测试",
+                "interface_name": "1553B接口",
+                "interface_id": "IF-002"
+            },
+            {
+                "interface_req_desc": "软件需在50秒内完成至少一次喂狗操作，超时未喂狗则触发硬件复位；系统复位后应自动恢复并重新加载程序映像",
+                "interface_req_id": "-",
+                "other_desc": "接口正常/异常测试",
+                "interface_name": "看门狗接口",
+                "interface_id": "IF-003"
+            },
+            {
+                "interface_req_desc": "软件提供RESTful API接口，支持POST /api/v1/register和POST /api/v1/login，请求与响应采用JSON格式，Token有效期为24小时（86400秒）",
+                "interface_req_id": "-",
+                "other_desc": "接口信息格式及内容的测试",
+                "interface_name": "RESTful API接口",
+                "interface_id": "IF-004"
+            }
+        ],
+        "interface_req_count": "{{ interface_req_count }}"
+    },
+    "reliable_req_items": {
+        "reliable_req_summary": [
+            {
+                "reliable_req_desc": "1553B总线芯片周期性自检",
+                "reliable_req_id": "TR-AQ-001",
+                "other_desc": "异常条件下软件的处理和保护能力"
+            },
+            {
+                "reliable_req_desc": "系统异常复位后自动恢复，重新加载程序映像",
+                "reliable_req_id": "TR-AQ-002",
+                "other_desc": "异常条件下软件的处理和保护能力"
+            }
+        ],
+        "reliable_req_count": "2"
+    },
+    "margin_req_items": {
+        "margin_req_summary": [
+            {
+                "margin_req_desc": "SRAM存储空间使用不超过4M，余量大于20%",
+                "margin_req_id": "TR-YL-001",
+                "other_desc": "存储余量"
+            },
+            {
+                "margin_req_desc": "SRAM存储空间使用不超过4M，余量大于20%",
+                "margin_req_id": "TR-YL-001",
+                "other_desc": "存储余量"
+            }
+        ],
+        "margin_req_count": "1"
+    },
+    "boundary_req_items": [
+        {
+            "boundary_req_desc": "用户名输入长度边界为3-20字符，小于3或大于20时应拒绝注册/登录",
+            "boundary_req_id": "TR-BJ-001",
+            "other_desc": "数据输入域边界测试"
+        },
+        {
+            "boundary_req_desc": "密码输入长度边界为8-32字符，小于8或大于32时应拒绝注册/登录",
+            "boundary_req_id": "TR-BJ-002",
+            "other_desc": "数据输入域边界测试"
+        },
+        {
+            "boundary_req_desc": "内存下卸指令包（TC_MEM_DUMP）下卸长度限幅96字节，超过96字节应截断或拒绝执行",
+            "boundary_req_id": "TR-BJ-003",
+            "other_desc": "数据输出域边界测试"
+        },
+        {
+            "boundary_req_desc": "JWT token有效期固定为24小时（86400秒），到期后token失效，不可延长",
+            "boundary_req_id": "TR-BJ-004",
+            "other_desc": "时间域边界测试"
+        },
+        {
+            "boundary_req_desc": "登录失败5次后账户锁定30分钟，第5次失败触发锁定，第6次失败仍在锁定期内",
+            "boundary_req_id": "TR-BJ-005",
+            "other_desc": "计数域边界测试"
+        }
+    ],
+    "safety_critical_req_items": {
+        "all_funcs": [
+            {
+                "func_desc": "1553B总线芯片周期性自检",
+                "func_id": "-",
+                "other_desc": "确保关键数据链路硬件状态实时可控，防止因总线故障导致指令丢失或误执行"
+            },
+            {
+                "func_desc": "系统异常复位后自动恢复并重新加载程序映像",
+                "func_id": "-",
+                "other_desc": "保障系统在单点故障后自主回归安全运行状态，避免长期失控或死锁"
+            },
+            {
+                "func_desc": "看门狗前50秒不喂狗机制",
+                "func_id": "-",
+                "other_desc": "为关键初始化阶段预留安全时间窗口，防止误触发复位导致启动失败"
+            }
+        ],
+        "safety_critical_req_count": "3"
+    },
+    "recover_req_items": {
+        "recover_req_summary": [
+            {
+                "recover_req_desc": "1553B总线芯片发生异常时，系统执行周期性自检并触发自动恢复机制；异常复位后，软件自动重启并重新加载程序映像，恢复至正常运行状态，确保关键通信功能连续可用",
+                "recover_req_id": "TR-HF-001",
+                "other_desc": "故障发生时保护系统状态"
+            }
+        ]
+    }
+}
